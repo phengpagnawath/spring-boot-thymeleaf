@@ -34,4 +34,24 @@ public class CategoryServiceImp implements CategoryService {
         }
         return null;
     }
+
+    @Override
+    public Category edit(Category newCategory) {
+        if(find(newCategory.getId())!=null)
+            if(categoryRepositoryImp.edit(newCategory)==1){
+                return newCategory;
+            }
+        return null;
+    }
+
+    @Override
+    public Category find(int id) {
+        return categoryRepositoryImp.find(id);
+    }
+
+    @Override
+    public void delete(int id) {
+        if(categoryRepositoryImp.find(id)!=null)
+            categoryRepositoryImp.delete(id);
+    }
 }

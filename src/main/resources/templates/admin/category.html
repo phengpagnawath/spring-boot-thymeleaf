@@ -33,13 +33,14 @@
     <!-- Start Content-->
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Add Category</h3>
+            <h3 class="card-title">Category</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" method="post" th:action="@{/admin/categories}" th:object="${category}">
+        <form role="form" id="form"
+              method="post" th:action="@{/admin/categories}" th:object="${category}">
             <div class="card-body row mb-0">
-                <div class="col-10">
+                <div class="col-11">
                     <input type="text" class="form-control" th:field="*{name}"
                            th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
                            placeholder="Enter Category's name">
@@ -48,8 +49,8 @@
                         error
                     </span>
                 </div>
-                <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                <div class="col-1 w-100">
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </form>
@@ -64,12 +65,13 @@
             </div>
         </div>
         <div class="col-1">
-            <button type="submit" class="btn btn-warning w-100">
+            <button type="submit" class="btn btn-warning w-100 btnEdit"
+            th:data-id="${cat.getId()}" th:data-name="${cat.getName()}">
                 <i class="far fa-edit"></i>
             </button>
         </div>
         <div class="col-1">
-            <button type="submit" class="btn btn-danger w-100">
+            <button type="submit" class="btn btn-danger w-100 btnDelete">
                 <i class="far fa-trash-alt"></i>
             </button>
         </div>
@@ -77,18 +79,17 @@
     <!--  End data listing  -->
 
 </div>
-
-
-
-    <th:block layout:fragment="scripts">
-        <script th:inline="javascript">
-            $(function () {
-                if([[${isSaved}]]=="true"){
-                    $('#modal-Message').modal('show')
-                }
-            })
-        </script>
-    </th:block>
+<div th:replace="fragments/modal :: modal-Confirm"></div>
+<th:block layout:fragment="scripts">
+    <script th:inline="javascript">
+        $(function () {
+            if([[${isSaved}]]){
+                $('#modal-Message').modal('show')
+            }
+        })
+    </script>
+    <script src="/js/category.js"> </script>
+</th:block>
 
 </body>
 </html>
