@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin.layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Category</title>
+</head>
+<body>
+
+<div layout:fragment="contain">
+
+    <!--  Modal  -->
+    <div th:replace="fragments/modal :: modal-Message(message=${message})"> </div>
+    <!--END Modal-->
+
+
+    <!-- Start Header -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Category Management</h1>
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- End Header -->
+
+    <!-- Start Content-->
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Add Category</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form role="form" method="post" th:action="@{/admin/categories}" th:object="${category}">
+            <div class="card-body row mb-0">
+                <div class="col-10">
+                    <input type="text" class="form-control" th:field="*{name}"
+                           th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                           placeholder="Enter Category's name">
+                    <span th:if="${#fields.hasErrors('name')}" class="error invalid-feedback"
+                          th:text="${#fields.errors('name').get(0)}">
+                        error
+                    </span>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--  End Content  -->
+
+    <!--  Start data Listing  -->
+    <div class="row" th:each="cat: ${categories}">
+        <div class="col-10">
+            <div class="callout callout-success p-2">
+                <p th:text="${cat.getName()}">category name</p>
+            </div>
+        </div>
+        <div class="col-1">
+            <button type="submit" class="btn btn-warning w-100">
+                <i class="far fa-edit"></i>
+            </button>
+        </div>
+        <div class="col-1">
+            <button type="submit" class="btn btn-danger w-100">
+                <i class="far fa-trash-alt"></i>
+            </button>
+        </div>
+    </div>
+    <!--  End data listing  -->
+
+</div>
+
+
+
+    <th:block layout:fragment="scripts">
+        <script th:inline="javascript">
+            $(function () {
+                if([[${isSaved}]]=="true"){
+                    $('#modal-Message').modal('show')
+                }
+            })
+        </script>
+    </th:block>
+
+</body>
+</html>
