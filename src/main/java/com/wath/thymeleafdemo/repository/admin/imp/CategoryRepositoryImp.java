@@ -31,7 +31,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
     @Override
     public List<Category> select() {
        return jdbcTemplate.query(
-                "select * from categories order by id DESC",
+                "select * from categories where status = TRUE order by id DESC",
                 (rs, rowNum) -> new Category(
                         rs.getInt("id"), rs.getString("name"), rs.getBoolean("status")
                 )
@@ -40,7 +40,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     @Override
     public int delete(int id) {
-        String sql = "delete from categories where id =" + id;
+        String sql = "update categories set status = FALSE where id =" + id;
         return jdbcTemplate.update(sql);
     }
 
@@ -52,7 +52,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     @Override
     public Category find(int id) {
-        String sql = "Select * from categories where id ="+id;
+        String sql = "Select * from categories where status = TRUE and id ="+id;
         return jdbcTemplate.query(sql, new ResultSetExtractor<Category>() {
             @Override
             public Category extractData(ResultSet rs) throws SQLException, DataAccessException {

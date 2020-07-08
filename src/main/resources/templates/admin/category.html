@@ -71,15 +71,14 @@
             </button>
         </div>
         <div class="col-1">
-            <button type="submit" class="btn btn-danger w-100 btnDelete">
+            <button type="submit" th:data-id="${cat.getId()}" class="btn btn-danger w-100 btnDelete">
                 <i class="far fa-trash-alt"></i>
             </button>
         </div>
     </div>
     <!--  End data listing  -->
-
+    <div th:replace="fragments/modal :: modal-Confirm"></div>
 </div>
-<div th:replace="fragments/modal :: modal-Confirm"></div>
 <th:block layout:fragment="scripts">
     <script th:inline="javascript">
         $(function () {

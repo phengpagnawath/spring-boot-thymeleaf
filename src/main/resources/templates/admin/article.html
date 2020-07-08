@@ -56,41 +56,51 @@
             <table class="table table-hover text-nowrap">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Reason</th>
+                    <th>No</th>
+                    <th>Title</th>
+                    <th>Thumbnail</th>
+                    <th>Author</th>
+                    <th>Published</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>183</td>
-                    <td>John Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="tag tag-success">Approved</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                    <td>219</td>
-                    <td>Alexander Pierce</td>
-                    <td>11-7-2014</td>
-                    <td><span class="tag tag-warning">Pending</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                    <td>657</td>
-                    <td>Bob Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="tag tag-primary">Approved</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                    <td>175</td>
-                    <td>Mike Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="tag tag-danger">Denied</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                <tr th:each="article,state : ${articles}" >
+                    <td th:text="${state.count}"></td>
+                    <td th:text="${article.title}">Title</td>
+                    <td>
+                       <img th:src="'/images/'+${article.thumbnail}"
+                            alt="thumbnail" class="img-thumbnail"
+                       width="50" height="50">
+<!--                        th:src="${@environment.getProperty('file.client-path')}+${article.thumbnail}"-->
+                    </td>
+                    <td th:text="${article.author}">Author</td>
+                    <td th:text="${article.date}">Date</td>
+                    <td th:object="${article}">
+                        <button th:data-id="*{articleID}"
+                                th:data-title="*{title}"
+                                th:data-description="*{description}"
+                                th:data-thumbnail="*{thumbnail}"
+                                th:data-published-date="*{date}"
+                                th:data-category-id="*{category.getId()}"
+                                th:data-author="*{author}"
+                                th:data-category="*{category.name}"
+                                type="submit" class="btn btn-secondary w-25 btn-view">
+                            <i class="fas fa-eye"></i>
+                        </button>
+
+                        <button th:data-id="*{articleID}"
+                                th:data-title="*{title}"
+                                th:data-description="*{description}"
+                                th:data-thumbnail="*{thumbnail}"
+                                th:data-category-id="*{category.getId()}"
+                                type="submit" class="btn btn-warning w-25 btnEdit">
+                            <i class="far fa-edit"></i>
+                        </button>
+                        <button th:data-id="*{articleID}" type="submit" class="btn btn-danger w-25 btn-delete">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -100,9 +110,20 @@
     <!--  End Article  -->
 
     <div th:replace="fragments/modal :: modal-1"> </div>
-
+    <div th:replace="fragments/modal :: modal-Confirm"></div>
+    <div th:replace="fragments/modal :: modal-view-article"></div>
 
 </div>
+
+<th:block layout:fragment="scripts">
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+
+        });
+    </script>
+    <script src="/js/article.js"> </script>
+</th:block>
 
 </body>
 </html>
