@@ -1,17 +1,13 @@
-package com.wath.thymeleafdemo.repository.admin.imp;
+package com.wath.thymeleafdemo.repository.admin.jdbc.imp;
 
 
 import com.wath.thymeleafdemo.model.Article;
-import com.wath.thymeleafdemo.repository.admin.ArticleRepository;
-import com.wath.thymeleafdemo.repository.admin.mapper.ArticlesRowMapper;
+import com.wath.thymeleafdemo.repository.admin.jdbc.ArticleRepository;
+import com.wath.thymeleafdemo.repository.admin.jdbc.mapper.ArticlesRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository

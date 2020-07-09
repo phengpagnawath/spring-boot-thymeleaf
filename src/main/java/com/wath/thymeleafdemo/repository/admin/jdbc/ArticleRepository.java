@@ -1,4 +1,4 @@
-package com.wath.thymeleafdemo.repository.admin;
+package com.wath.thymeleafdemo.repository.admin.jdbc;
 
 import com.wath.thymeleafdemo.model.Article;
 

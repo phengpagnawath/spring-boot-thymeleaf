@@ -1,7 +1,7 @@
 package com.wath.thymeleafdemo.service.admin.imp;
 
 import com.wath.thymeleafdemo.model.Category;
-import com.wath.thymeleafdemo.repository.admin.imp.CategoryRepositoryImp;
+import com.wath.thymeleafdemo.repository.admin.jdbc.imp.CategoryRepositoryImp;
 import com.wath.thymeleafdemo.service.admin.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

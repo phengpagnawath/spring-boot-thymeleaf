@@ -1,4 +1,4 @@
-package com.wath.thymeleafdemo.repository.admin.mapper;
+package com.wath.thymeleafdemo.repository.admin.jdbc.mapper;
 
 import com.wath.thymeleafdemo.model.Article;
 import com.wath.thymeleafdemo.model.Category;
