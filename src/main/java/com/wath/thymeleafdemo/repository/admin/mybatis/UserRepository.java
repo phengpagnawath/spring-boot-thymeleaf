@@ -20,7 +20,8 @@ public interface UserRepository {
     boolean delete(String userID);
 
     @SelectProvider(value = UserProvider.class, method = "searchUser")
-    @Results({
+    @Results(
+            id = "userResult",value = {
             @Result(property = "userID" , column = "user_id"),
             @Result(property = "firstName",column = "first_name"),
             @Result(property = "lastName",column = "last_name")
@@ -28,22 +29,17 @@ public interface UserRepository {
     List<User> search(String search);
 
     @Select("select * from users where status = true")
-    @Results({
-            @Result(property = "userID" , column = "user_id"),
-            @Result(property = "firstName",column = "first_name"),
-            @Result(property = "lastName",column = "last_name")
-    })
+    @ResultMap("userResult")
     List<User> getAllUsers();
 
     @Select("select * from users where user_id = #{userID} and status = true")
-    @Results({
-            @Result(property = "userID" , column = "user_id"),
-            @Result(property = "firstName",column = "first_name"),
-            @Result(property = "lastName",column = "last_name")
-    })
+    @ResultMap("userResult")
     User getUser(String userID);
 
     @Insert("Insert into users (user_id,first_name,last_name,email,password) " +
             "values (#{userID},#{firstName},#{lastName},#{email},#{password})")
     boolean save(User user);
+
+    @UpdateProvider(value = UserProvider.class,method = "updatePassword")
+    boolean updatePassword(String password,String userID);
 }

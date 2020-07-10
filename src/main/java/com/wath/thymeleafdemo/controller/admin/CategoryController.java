@@ -43,7 +43,6 @@ public class CategoryController {
             //System.out.println(category + "insert successfully");
             redirect.addFlashAttribute("isSaved",true);
             redirect.addFlashAttribute("message","Record saved..!");
-
         }
         return "redirect:/admin/categories";
     }

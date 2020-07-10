@@ -25,11 +25,15 @@ class ThymeleafDemoApplicationTests {
 //        user.setPassword("12345");
 //
 //        userServiceImp.save(user);
+//
+//        System.out.println("List all user:"+userServiceImp.getAllUsers());
+//        System.out.println("User by ID :"+userServiceImp.getUser("fdd768fd-77c5-4ec1-9133-13f7d23856d0"));
+//        System.out.println("search pheng:" +userServiceImp.search("%Phen%"));
+//        System.out.println(userServiceImp.search("%Pagnawa%"));
+//
+//
 
-        System.out.println("List all user:"+userServiceImp.getAllUsers());
-        System.out.println("User by ID :"+userServiceImp.getUser("fdd768fd-77c5-4ec1-9133-13f7d23856d0"));
-        System.out.println("search pheng:" +userServiceImp.search("%Phen%"));
-        System.out.println(userServiceImp.search("%Pagnawa%"));
+//        userServiceImp.updatePassword("456","fdd768fd-77c5-4ec1-9133-13f7d23856d0");
     }
 
 }

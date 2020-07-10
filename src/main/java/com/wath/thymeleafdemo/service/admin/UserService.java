@@ -11,4 +11,5 @@ public interface UserService {
     User update(User newUser);
     void delete(String userID);
     List<User> search(String search);
+    void updatePassword(String password,String userID);
 }

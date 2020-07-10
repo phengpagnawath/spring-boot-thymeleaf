@@ -1,12 +1,28 @@
 package com.wath.thymeleafdemo.model;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 public class User {
     private int id;
     private String userID;
+
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String password;
+
+    @NotBlank
+    private String confirmPassword;
+
     private boolean status;
 
     public User() {
@@ -31,6 +47,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
                 ", status=" + status +
                 '}';
     }
@@ -89,5 +106,13 @@ public class User {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

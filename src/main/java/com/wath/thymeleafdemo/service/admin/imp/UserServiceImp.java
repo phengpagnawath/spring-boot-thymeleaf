@@ -47,5 +47,10 @@ public class UserServiceImp implements UserService {
     public List<User> search(String search) {
         return userRepository.search(search);
     }
+
+    @Override
+    public void updatePassword(String password, String userID) {
+        userRepository.updatePassword(password,userID);
+    }
 }
 
