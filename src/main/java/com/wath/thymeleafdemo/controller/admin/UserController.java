@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -35,7 +36,9 @@ public class UserController {
 
     @GetMapping("/view")
     public String userView(ModelMap map,@ModelAttribute User user){
-
+        map.addAttribute("user",user);
+        List<User> users = userServiceImp.getAllUsers();
+        map.addAttribute("users",users);
         return PATH_VIEW;
     }
 

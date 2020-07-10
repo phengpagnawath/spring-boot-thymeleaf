@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>List User</title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Condensed Full Width Table</h3>
+            <h3 class="card-title">List of User</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body p-0">
@@ -23,51 +23,25 @@
                 <thead>
                 <tr>
                     <th style="width: 10px">#</th>
-                    <th>Task</th>
+                    <th>User</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Progress</th>
                     <th style="width: 40px">Label</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1.</td>
-                    <td>Update software</td>
+                <tr th:each="user,state : ${users}">
+                    <td th:text="${state.count}"></td>
+                    <td th:text="${user.userID}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
                     <td>
                         <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                            <div class="progress-bar progress-bar-danger" style="width: 10%"></div>
                         </div>
                     </td>
-                    <td><span class="badge bg-danger">55%</span></td>
-                </tr>
-                <tr>
-                    <td>2.</td>
-                    <td>Clean database</td>
-                    <td>
-                        <div class="progress progress-xs">
-                            <div class="progress-bar bg-warning" style="width: 70%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-warning">70%</span></td>
-                </tr>
-                <tr>
-                    <td>3.</td>
-                    <td>Cron job running</td>
-                    <td>
-                        <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-primary" style="width: 30%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-primary">30%</span></td>
-                </tr>
-                <tr>
-                    <td>4.</td>
-                    <td>Fix and squish bugs</td>
-                    <td>
-                        <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-success" style="width: 90%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-success">90%</span></td>
+                    <td><span class="badge bg-danger">10%</span></td>
                 </tr>
                 </tbody>
             </table>
