@@ -24,7 +24,7 @@ import java.util.UUID;
 @RequestMapping("/admin/user")
 public class UserController {
 
-    private UserServiceImp userServiceImp;
+    private final UserServiceImp userServiceImp;
     private final String URL = "/admin/user";
     private final String PATH = "admin/user";
     private final String PATH_VIEW="admin/user-view";
@@ -43,23 +43,24 @@ public class UserController {
     }
 
     @GetMapping("/add")
-    public String addUserView(ModelMap map,@ModelAttribute User user){
+    public String addUserView(ModelMap map, User user){
         map.addAttribute("user",user);
         return PATH;
     }
 
     @PostMapping("/add")
-    public String addUser(@Valid @ModelAttribute User user, BindingResult result
-            ,RedirectAttributes redirect, ModelMap map){
-        System.out.println(result.toString());
+    public String addUser(@Valid User user, BindingResult result, ModelMap map
+            ,RedirectAttributes redirect){
+        //System.out.println(result.toString());
         if (result.hasErrors()) {
             return addUserView(map,user);
         }
 
         if(!user.getPassword().matches(user.getConfirmPassword())){
-            result.rejectValue("confirmPassword","error.user","password not match ..!");
+            result.rejectValue("confirmPassword","error.user","password not match");
             return addUserView(map,user);
         }
+
         //If you want Message error show in model
         /*
         if(!user.getPassword().matches(user.getConfirmPassword())){
@@ -70,6 +71,7 @@ public class UserController {
             return "redirect:" + URL + "/add";
         }
         */
+        
         user.setUserID(UUID.randomUUID().toString());
         userServiceImp.save(user);
         redirect.addFlashAttribute("success",true);
