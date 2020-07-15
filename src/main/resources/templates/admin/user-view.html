@@ -23,9 +23,8 @@
                 <thead>
                 <tr>
                     <th style="width: 10px">#</th>
-                    <th>User</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Name</th>
+                    <th>Email</th>
                     <th>Progress</th>
                     <th style="width: 40px"> </th>
                     <th>Action</th>
@@ -34,24 +33,28 @@
                 <tbody>
                 <tr th:each="user,state : ${users}">
                     <td th:text="${state.count}"></td>
-                    <td th:text="${user.userID}"></td>
-                    <td th:text="${user.firstName}"></td>
-                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.firstName} +' '+ ${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
                     <td>
                         <div class="progress progress-xs mt-2">
                             <div class="progress-bar progress-bar-danger " style="width: 10%"></div>
                         </div>
                     </td>
                     <td><span class="badge bg-danger">10%</span></td>
-                    <td width="165">
-                        <button type="submit" class="btn btn-secondary w-10 btn-view">
+                    <td width="165" th:object="${user}">
+                        <button th:data-id="*{userID}"
+                                th:data-firstName="*{firstName}"
+                                th:data-lastName="*{lastName}"
+                                th:data-thumbnail="*{email}"
+                                type="submit" class="btn btn-secondary w-10 btn-view">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <button th:data-user-id=""
-                                type="submit" class="btn btn-warning w-10 btnEdit">
+                        <a th:href="@{/admin/user/update/{userID}(userID=*{userID})}"
+                                type="button" class="btn btn-warning w-10 btnEdit">
                             <i class="far fa-edit"></i>
-                        </button>
-                        <button type="submit" class="btn btn-danger w-10 btn-delete">
+                        </a>
+                        <button th:data-id="*{userID}"
+                                type="submit" class="btn btn-danger w-10 btn-delete">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </td>
@@ -61,11 +64,18 @@
         </div>
         <!-- /.card-body -->
     </div>
-
+    <div th:replace="fragments/modal :: modal-Message(message=${message})"></div>
+    <div th:replace="fragments/modal :: modal-Confirm"></div>
 </div>
 
 <th:block layout:fragment="scripts">
-    <script src="/js/article.js"> </script>
+    <script th:inline="javascript">
+        if ([[${success}]]) {
+            $('#modal-Message').modal('show')
+        }
+    </script>
+
+    <script src="/js/user.js"> </script>
 </th:block>
 
 </body>

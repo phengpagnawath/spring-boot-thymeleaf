@@ -7,23 +7,24 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add User</title>
+    <title class="title">Add User</title>
 </head>
 <body>
 
 <div layout:fragment="contain" class="register-page">
     <div class="">
         <div class="register-logo">
-            <h1>New User</h1>k
+            <h1 class="header"></h1>
         </div>
         <div class="card">
             <div class="card-body register-card-body ">
-                <form method="post" th:action="@{/admin/user/add}" th:object="${user}">
+                <form id="user-form" method="post" th:action="@{/admin/user/add}" th:object="${user}">
                     <div class="row">
                         <div class="col-4">
                             <div class="input-group mb-3">
                                 <input th:classappend="${#fields.hasErrors('firstName')?'is-invalid':''}"
                                        type="text" class="form-control" th:field="*{firstName}"
+                                       id="first-name"
                                        placeholder="First name">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
@@ -37,7 +38,9 @@
                         <div class="col-8">
                             <div class="input-group mb-3">
                                 <input th:classappend="${#fields.hasErrors('lastName')?'is-invalid':''}"
-                                       type="text" class="form-control" th:field="*{lastName}" placeholder="Last name">
+                                       type="text" class="form-control" th:field="*{lastName}"
+                                       id="last-name"
+                                       placeholder="Last name">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-user"></span>
@@ -52,7 +55,9 @@
                         <div class="col-12">
                             <div class="input-group mb-3">
                                 <input th:classappend="${#fields.hasErrors('email')?'is-invalid':''}"
-                                        type="email" class="form-control" th:field="*{email}" placeholder="Email">
+                                        type="email" class="form-control" th:field="*{email}"
+                                       id="email"
+                                       placeholder="Email">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
@@ -63,10 +68,12 @@
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div class="password">
                         <div class="input-group mb-3">
                             <input th:classappend="${#fields.hasErrors('password') or #fields.hasErrors('confirmPassword') ? 'is-invalid' : ''}"
-                                    type="password" class="form-control" th:field="*{password}" placeholder="Password">
+                                   type="password" class="form-control" th:field="*{password}"
+                                   id="password"
+                                   placeholder="Password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -78,8 +85,9 @@
 
                         <div class="input-group mb-3">
                             <input th:classappend="${#fields.hasErrors('confirmPassword')?'is-invalid':''}"
-                                    type="password" class="form-control" th:field="*{confirmPassword}"
-                                   placeholder="Retype password">
+                                    type="password" class="form-control password" th:field="*{confirmPassword}"
+                                   id="confirm-password"
+                                   placeholder="Retype">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -89,13 +97,14 @@
                                   th:text="${#fields.errors('confirmPassword').get(0)}">error</span>
                         </div>
                     </div>
+                    <input class="user-id" type="hidden" th:field="*{userID}">
                     <div class="row">
                         <div class="col-8">
 
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-submit">Register</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -104,16 +113,23 @@
             <!-- /.form-box -->
         </div><!-- /.card -->
     </div>
-    <div th:replace="fragments/modal :: modal-Message(message=${message})"></div>
+
 </div>
 
 <th:block layout:fragment="scripts">
     <script th:inline="javascript">
-        if ([[${success}]]) {
-            $('#modal-Message').modal('show')
+        if ([[${isEdit}]]) {
+            $('.title').text('Edit user')
+            $('.header').text('Edit user')
+            $('.password').css('display','none')
+            $('.btn-submit').text('update')
+            let id = $('.user-id').val()
+            $('#user-form').attr('action', '/admin/user/update/'+ id)
         }
     </script>
+    <script src="/js/user.js"> </script>
 </th:block>
+
 
 </body>
 </html>

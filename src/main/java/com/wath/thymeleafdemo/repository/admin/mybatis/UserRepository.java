@@ -12,7 +12,7 @@ public interface UserRepository {
 
 
     @Update("update users set first_name = #{firstName} ," +
-            "last_name = #{lastName}, email = #{email} , password = #{password} where" +
+            "last_name = #{lastName}, email = #{email} where " +
             "user_id = #{userID} and status = true")
     boolean update(User newUser);
 
@@ -28,7 +28,7 @@ public interface UserRepository {
     })
     List<User> search(String search);
 
-    @Select("select * from users where status = true")
+    @Select("select * from users where status = true order by id desc")
     @ResultMap("userResult")
     List<User> getAllUsers();
 
@@ -42,4 +42,5 @@ public interface UserRepository {
 
     @UpdateProvider(value = UserProvider.class,method = "updatePassword")
     boolean updatePassword(String password,String userID);
+
 }

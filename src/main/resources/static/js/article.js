@@ -1,5 +1,10 @@
+$('#btn-add').on('click',function (e) {
+    e.preventDefault()
+    $('.modal-title').text('Add new article')
+})
 $('.btnEdit').on('click', function (e) {
     e.preventDefault()
+    $('.modal-title').text('Update article')
     let article = {
         articleID:$(this).data('id'),
         title : $(this).data('title'),
