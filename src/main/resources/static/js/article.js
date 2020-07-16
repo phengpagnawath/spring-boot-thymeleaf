@@ -1,6 +1,9 @@
 $('#btn-add').on('click',function (e) {
     e.preventDefault()
     $('.modal-title').text('Add new article')
+    $('#title').val(null)
+    $('#description').val(null)
+    $('#thumbnail').val(null)
 })
 $('.btnEdit').on('click', function (e) {
     e.preventDefault()
