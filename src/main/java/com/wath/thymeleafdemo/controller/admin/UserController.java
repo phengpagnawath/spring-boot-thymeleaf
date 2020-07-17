@@ -3,6 +3,7 @@ package com.wath.thymeleafdemo.controller.admin;
 import com.wath.thymeleafdemo.model.User;
 import com.wath.thymeleafdemo.service.admin.imp.CategoryServiceImp;
 import com.wath.thymeleafdemo.service.admin.imp.UserServiceImp;
+import com.wath.thymeleafdemo.utils.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +34,15 @@ public class UserController {
     }
 
     @GetMapping("/view")
-    public String userView(ModelMap map,@ModelAttribute User user){
+    public String userView(ModelMap map, @ModelAttribute User user, Paging paging,@RequestParam(required = false) String keyword){
+//
+        if (keyword ==null)
+            keyword ="";
+        System.out.println(keyword);
         map.addAttribute("user",user);
-        List<User> users = userServiceImp.getAllUsers();
+        List<User> users = userServiceImp.getAllUsers(paging,keyword);
+        System.out.println(users);
+        map.addAttribute("paging",paging);
         map.addAttribute("users",users);
         return PATH_VIEW;
     }

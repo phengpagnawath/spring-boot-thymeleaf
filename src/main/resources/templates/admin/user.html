@@ -119,6 +119,7 @@
 <th:block layout:fragment="scripts">
     <script th:inline="javascript">
         if ([[${isEdit}]]) {
+
             $('.title').text('Edit user')
             $('.header').text('Edit user')
             $('.password').css('display','none')

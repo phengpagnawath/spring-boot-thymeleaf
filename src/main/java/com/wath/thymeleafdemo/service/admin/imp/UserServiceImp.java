@@ -3,6 +3,7 @@ package com.wath.thymeleafdemo.service.admin.imp;
 import com.wath.thymeleafdemo.model.User;
 import com.wath.thymeleafdemo.repository.admin.mybatis.UserRepository;
 import com.wath.thymeleafdemo.service.admin.UserService;
+import com.wath.thymeleafdemo.utils.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,10 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+    public List<User> getAllUsers(Paging paging,String keyword) {
+        System.out.println(userRepository.countUser(keyword));
+        paging.setTotalCount(userRepository.countUser(keyword));
+        return userRepository.getAllUsers(paging,keyword);
     }
 
     @Override

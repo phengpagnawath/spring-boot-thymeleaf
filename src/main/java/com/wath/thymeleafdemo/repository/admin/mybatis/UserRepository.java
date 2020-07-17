@@ -2,6 +2,7 @@ package com.wath.thymeleafdemo.repository.admin.mybatis;
 
 import com.wath.thymeleafdemo.model.User;
 import com.wath.thymeleafdemo.repository.admin.mybatis.provider.UserProvider;
+import com.wath.thymeleafdemo.utils.Paging;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -26,15 +27,28 @@ public interface UserRepository {
             @Result(property = "firstName",column = "first_name"),
             @Result(property = "lastName",column = "last_name")
     })
-    List<User> search(String search);
+    List<User> search(String search); 
 
-    @Select("select * from users where status = true order by id desc")
+    @Select("select * from users where ( first_name ilike '%${keyword}%' " +
+            "or last_name ilike '%${keyword}%' " +
+            "or email ilike '%${keyword}%' ) " +
+            "and status = true " +
+            "order by id desc " +
+            "OFFSET #{paging.offset} " +
+            "LIMIT #{paging.limit} ")
     @ResultMap("userResult")
-    List<User> getAllUsers();
+    List<User> getAllUsers(Paging paging,String keyword);
+
+    @Select("select count(*) from users where ( first_name ilike '%${keyword}%' " +
+            "or last_name ilike '%${keyword}%' " +
+            "or email ilike '%${keyword}%' ) " +
+            "and status = true")
+    int countUser(String keyword);
 
     @Select("select * from users where user_id = #{userID} and status = true")
     @ResultMap("userResult")
     User getUser(String userID);
+
 
     @Insert("Insert into users (user_id,first_name,last_name,email,password) " +
             "values (#{userID},#{firstName},#{lastName},#{email},#{password})")
