@@ -38,10 +38,8 @@ public class UserController {
 //
         if (keyword ==null)
             keyword ="";
-        System.out.println(keyword);
         map.addAttribute("user",user);
         List<User> users = userServiceImp.getAllUsers(paging,keyword);
-        System.out.println(users);
         map.addAttribute("paging",paging);
         map.addAttribute("users",users);
         return PATH_VIEW;

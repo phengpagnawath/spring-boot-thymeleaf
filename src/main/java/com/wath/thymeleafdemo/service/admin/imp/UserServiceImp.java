@@ -21,7 +21,6 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<User> getAllUsers(Paging paging,String keyword) {
-        System.out.println(userRepository.countUser(keyword));
         paging.setTotalCount(userRepository.countUser(keyword));
         return userRepository.getAllUsers(paging,keyword);
     }

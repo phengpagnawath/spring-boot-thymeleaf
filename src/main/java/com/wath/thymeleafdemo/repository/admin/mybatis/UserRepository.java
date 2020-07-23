@@ -27,7 +27,7 @@ public interface UserRepository {
             @Result(property = "firstName",column = "first_name"),
             @Result(property = "lastName",column = "last_name")
     })
-    List<User> search(String search); 
+    List<User> search(String search);
 
     @Select("select * from users where ( first_name ilike '%${keyword}%' " +
             "or last_name ilike '%${keyword}%' " +

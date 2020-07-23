@@ -8,11 +8,60 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
 </head>
 <body>
 
 <div layout:fragment="contain">
-    <h1>Hello </h1>
+    <div class="content" th:each="article,state : ${articles}">
+        <div class="container-fluid mt-2" >
+            <div class="row">
+                <div class="col-lg">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <div class="d-flex justify-content-between">
+                                <h1 class="" th:text="${article.title}">Article</h1>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <p class="d-flex flex-column">
+                                    <span class="text-bold text-lg">820</span>
+                                    <span>Visitors Over Time</span>
+                                </p>
+                                <p class="ml-auto d-flex flex-column text-right">
+                                    <span class="text-success">
+                                      <i class="fas fa-arrow-up"></i> 12.5%
+                                    </span>
+                                    <span class="text-muted">Since last week</span>
+                                </p>
+                            </div>
+                            <!-- /.d-flex -->
+
+                            <div class="position-relative mb-4">
+                                <div class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand row mt-3">
+                                        <div class="col-6">
+                                            <img th:src="'/images/'+${article.thumbnail}"
+                                                 alt="thumbnail" class="img-thumbnail">
+                                        </div>
+                                        <div class="col-6">
+                                            <h4 class="description mt-5 ml-5" th:text="${article.description}"> Description</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col-md -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- end article-->
 </div>
 
 </body>
