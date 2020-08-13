@@ -38,7 +38,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
     @Override
     public List<Article> getAll() {
 
-        String sql = "select * from articles where status = TRUE order by id asc";
+        String sql = "select * from articles where status = TRUE order by create_date desc,id desc";
         return jdbcTemplate.query(sql,new ArticlesRowMapper());
     }
 

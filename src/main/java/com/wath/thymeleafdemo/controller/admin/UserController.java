@@ -2,9 +2,11 @@ package com.wath.thymeleafdemo.controller.admin;
 
 import com.wath.thymeleafdemo.model.User;
 import com.wath.thymeleafdemo.service.admin.imp.CategoryServiceImp;
+import com.wath.thymeleafdemo.service.admin.imp.RoleServiceImp;
 import com.wath.thymeleafdemo.service.admin.imp.UserServiceImp;
 import com.wath.thymeleafdemo.utils.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -23,14 +25,23 @@ import java.util.UUID;
 public class UserController {
 
     private final UserServiceImp userServiceImp;
+    private final RoleServiceImp roleServiceImp;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
     private final String URL = "/admin/user";
     private final String PATH = "admin/user";
     private final String PATH_VIEW="admin/user-view";
     private final String URL_VIEW="/admin/user/view";
 
     @Autowired
-    public UserController(UserServiceImp userServiceImp) {
+    public UserController(UserServiceImp userServiceImp,RoleServiceImp roleServiceImp) {
         this.userServiceImp = userServiceImp;
+        this.roleServiceImp = roleServiceImp;
     }
 
     @GetMapping("/view")
@@ -48,6 +59,7 @@ public class UserController {
     @GetMapping("/add")
     public String addUserView(ModelMap map, User user){
         map.addAttribute("user",user);
+        map.addAttribute("roles",roleServiceImp.listRole());
         return PATH;
     }
 
@@ -76,6 +88,8 @@ public class UserController {
         */
 
         user.setUserID(UUID.randomUUID().toString());
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         userServiceImp.save(user);
         redirect.addFlashAttribute("success",true);
         redirect.addFlashAttribute("message","User create successfully!");
@@ -92,6 +106,7 @@ public class UserController {
     @GetMapping("update/{id}")
     public String updateUser(ModelMap map, @PathVariable String id){
         map.addAttribute("user",userServiceImp.getUser(id));
+        map.addAttribute("roles",roleServiceImp.listRole());
         map.addAttribute("isEdit",true);
         return PATH;
     }

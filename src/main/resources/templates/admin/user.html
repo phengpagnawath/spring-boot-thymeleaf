@@ -19,6 +19,12 @@
         <div class="card">
             <div class="card-body register-card-body ">
                 <form id="user-form" method="post" th:action="@{/admin/user/add}" th:object="${user}">
+                    <div class="form-group">
+                        <select class="form-control" th:field="*{roles[0].id}">
+                            <option disabled="disabled" class="choose" selected="selected" th:value="0">Choose ROLE</option>
+                            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}" ></option>
+                        </select>
+                    </div>
                     <div class="row">
                         <div class="col-4">
                             <div class="input-group mb-3">

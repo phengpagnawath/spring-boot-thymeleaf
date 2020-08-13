@@ -53,7 +53,7 @@ public class ArticleController {
     @PostMapping
     public String saveArticleAction(@ModelAttribute Article article, @RequestParam("tn") MultipartFile tn){
         String fileName= tn.getOriginalFilename();
-        String uri = UUID.randomUUID() + fileName.substring(fileName.indexOf("."));
+        String uri = UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
 
         try {
             Files.copy(tn.getInputStream(), Paths.get(serverPath+uri));

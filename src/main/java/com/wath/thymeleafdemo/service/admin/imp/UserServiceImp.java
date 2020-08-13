@@ -5,6 +5,8 @@ import com.wath.thymeleafdemo.repository.admin.mybatis.UserRepository;
 import com.wath.thymeleafdemo.service.admin.UserService;
 import com.wath.thymeleafdemo.utils.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,16 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public List<User> getUsers() {
+        return userRepository.getUsers();
+    }
+
+    @Override
     public User save(User user) {
-        return userRepository.save(user) ? user : null;
+        if(userRepository.save(user))
+            if(userRepository.createUserRole(user))
+                return user;
+        return null;
     }
 
     @Override
@@ -37,7 +47,10 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User update(User newUser) {
-        return userRepository.update(newUser) ? newUser : null;
+        if(userRepository.update(newUser))
+            if(userRepository.updateUserRole(newUser))
+                return newUser;
+        return null;
     }
 
     @Override
@@ -53,6 +66,12 @@ public class UserServiceImp implements UserService {
     @Override
     public void updatePassword(String password, String userID) {
         userRepository.updatePassword(password,userID);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        System.out.println(userRepository.getUserByEmail(s));
+        return userRepository.getUserByEmail(s);
     }
 }
 

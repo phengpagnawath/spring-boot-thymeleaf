@@ -1,5 +1,6 @@
 package com.wath.thymeleafdemo.repository.admin.mybatis;
 
+import com.wath.thymeleafdemo.model.Role;
 import com.wath.thymeleafdemo.model.User;
 import com.wath.thymeleafdemo.repository.admin.mybatis.provider.UserProvider;
 import com.wath.thymeleafdemo.utils.Paging;
@@ -23,9 +24,12 @@ public interface UserRepository {
     @SelectProvider(value = UserProvider.class, method = "searchUser")
     @Results(
             id = "userResult",value = {
-            @Result(property = "userID" , column = "user_id"),
-            @Result(property = "firstName",column = "first_name"),
-            @Result(property = "lastName",column = "last_name")
+                                        @Result(property = "id" , column = "id"),
+                                        @Result(property = "userID" , column = "user_id"),
+                                        @Result(property = "firstName",column = "first_name"),
+                                        @Result(property = "lastName",column = "last_name"),
+                                        @Result(property = "roles",column = "id",
+            many = @Many(select = "selectRolesById"))
     })
     List<User> search(String search);
 
@@ -38,6 +42,13 @@ public interface UserRepository {
             "LIMIT #{paging.limit} ")
     @ResultMap("userResult")
     List<User> getAllUsers(Paging paging,String keyword);
+
+    @Select("select * from users Where "+
+            "status = true ")
+    @ResultMap("userResult")
+    List<User> getUsers();
+
+
 
     @Select("select count(*) from users where ( first_name ilike '%${keyword}%' " +
             "or last_name ilike '%${keyword}%' " +
@@ -52,9 +63,24 @@ public interface UserRepository {
 
     @Insert("Insert into users (user_id,first_name,last_name,email,password) " +
             "values (#{userID},#{firstName},#{lastName},#{email},#{password})")
+    @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     boolean save(User user);
 
     @UpdateProvider(value = UserProvider.class,method = "updatePassword")
     boolean updatePassword(String password,String userID);
 
+    @Select("Select * from users where email = #{email} and status = true")
+    @ResultMap("userResult")
+    User getUserByEmail(String email);
+
+    @Select("select r.id,r.name from roles r inner join users_roles ur on r.id = ur.role_id " +
+            "where ur.user_id = #{id}")
+    List<Role> selectRolesById(int id);
+
+    @Insert("insert into users_roles(user_id, role_id) VALUES (#{id},#{roles[0].id})")
+    @ResultMap("userResult")
+    boolean createUserRole(User user);
+
+    @Update("update users_roles set role_id = #{roles[0].id} where user_id = #{id}")
+    boolean updateUserRole(User user);
 }

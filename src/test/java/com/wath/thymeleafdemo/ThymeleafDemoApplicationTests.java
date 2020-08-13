@@ -1,10 +1,12 @@
 package com.wath.thymeleafdemo;
 
 import com.wath.thymeleafdemo.model.User;
+import com.wath.thymeleafdemo.repository.admin.mybatis.UserRepository;
 import com.wath.thymeleafdemo.service.admin.imp.UserServiceImp;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.UUID;
 
@@ -13,6 +15,12 @@ class ThymeleafDemoApplicationTests {
 
     @Autowired
     UserServiceImp userServiceImp;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     void contextLoads() {
@@ -34,6 +42,12 @@ class ThymeleafDemoApplicationTests {
 //
 
 //        userServiceImp.updatePassword("456","fdd768fd-77c5-4ec1-9133-13f7d23856d0");
+    }
+
+    @Test
+    void test(){
+        //System.out.println(bCryptPasswordEncoder.encode("wath@123"));
+        System.out.println(userRepository.selectRolesById(1));
     }
 
 }

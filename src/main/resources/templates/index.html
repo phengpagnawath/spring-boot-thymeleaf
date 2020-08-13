@@ -26,19 +26,19 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">820</span>
-                                    <span>Visitors Over Time</span>
+                                    <span class="text-bold text-lg">Upload date</span>
+                                    <span th:text="${article.date}"></span>
                                 </p>
                                 <p class="ml-auto d-flex flex-column text-right">
-                                    <span class="text-success">
-                                      <i class="fas fa-arrow-up"></i> 12.5%
-                                    </span>
-                                    <span class="text-muted">Since last week</span>
+                                    <a class="text-success btn-like" type="button">
+                                        <i onclick="myLikeFunction(this)" class="far fa-thumbs-up"></i>
+                                    </a>
+                                    <span class="text-muted"></span>
                                 </p>
                             </div>
                             <!-- /.d-flex -->
 
-                            <div class="position-relative mb-4">
+                            <div th:if="${state.count}%2 ==1" class="position-relative mb-4">
                                 <div class="chartjs-size-monitor">
                                     <div class="chartjs-size-monitor-expand row mt-3">
                                         <div class="col-6">
@@ -51,6 +51,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div th:if="${state.count}%2 ==0" class="position-relative mb-4">
+                                <div class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand row mt-3">
+                                        <div class="col-6">
+                                            <h4 class="description mt-5 ml-5" th:text="${article.description}"> Description</h4>
+                                        </div>
+                                        <div class="col-6">
+                                            <img th:src="'/images/'+${article.thumbnail}"
+                                                 alt="thumbnail" class="img-thumbnail">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- /.card -->
@@ -63,6 +77,20 @@
     </div>
     <!-- end article-->
 </div>
+
+<th:block layout:fragment="scripts">
+    <script type="text/javascript" th:inline="javascript" >
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
+
+        function myLikeFunction(x) {
+            x.classList.toggle("fas fa-thumbs-up")
+        }
+    </script>
+
+    <script src="/js/timeline.js"> </script>
+</th:block>
 
 </body>
 </html>
