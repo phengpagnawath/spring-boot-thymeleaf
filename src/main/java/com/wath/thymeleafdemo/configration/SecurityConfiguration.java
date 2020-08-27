@@ -55,7 +55,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin().loginPage("/login").successHandler(successHandler).permitAll();
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests()
+                .antMatchers("/admin/categories/**").hasAnyAuthority("ADMIN","EDITOR")
+                .antMatchers("/admin/articles/**").hasAnyAuthority("WRITE","READ")
+                .anyRequest().authenticated();
     }
 
     @Override

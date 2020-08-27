@@ -1,5 +1,6 @@
 package com.wath.thymeleafdemo.repository.admin.mybatis;
 
+import com.wath.thymeleafdemo.model.Authority;
 import com.wath.thymeleafdemo.model.Role;
 import com.wath.thymeleafdemo.model.User;
 import com.wath.thymeleafdemo.repository.admin.mybatis.provider.UserProvider;
@@ -75,7 +76,14 @@ public interface UserRepository {
 
     @Select("select r.id,r.name from roles r inner join users_roles ur on r.id = ur.role_id " +
             "where ur.user_id = #{id}")
+    @Results(value = {
+            @Result(property = "authorities",column = "id",many = @Many(select = "selectAuthorityByRole"))
+    })
     List<Role> selectRolesById(int id);
+
+    @Select("Select * from authorities a INNER JOIN role_authority ra ON ra.authority_id = a.id " +
+            "WHERE ra.role_id = #{roleID} ")
+    List<Authority> selectAuthorityByRole(int id);
 
     @Insert("insert into users_roles(user_id, role_id) VALUES (#{id},#{roles[0].id})")
     @ResultMap("userResult")

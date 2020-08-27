@@ -3,17 +3,20 @@ package com.wath.thymeleafdemo.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Role implements Serializable, GrantedAuthority {
     private int id;
     private String name;
+    private List<Authority> authorities;
 
     public Role() {
     }
 
-    public Role(int id, String name) {
+    public Role(int id, String name, List<Authority> authorities) {
         this.id = id;
         this.name = name;
+        this.authorities = authorities;
     }
 
     @Override
@@ -21,6 +24,7 @@ public class Role implements Serializable, GrantedAuthority {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", authorities=" + authorities +
                 '}';
     }
 
@@ -40,8 +44,16 @@ public class Role implements Serializable, GrantedAuthority {
         this.name = name;
     }
 
+    public List<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
     @Override
     public String getAuthority() {
-        return "ROLE_" + name;
+        return name;
     }
 }

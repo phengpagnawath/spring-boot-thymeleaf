@@ -1,10 +1,12 @@
 package com.wath.thymeleafdemo.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -116,7 +118,13 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for(Role role: roles){
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            for (Authority authority : role.getAuthorities())
+                authorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+        return authorities;
     }
 
     public String getPassword() {
