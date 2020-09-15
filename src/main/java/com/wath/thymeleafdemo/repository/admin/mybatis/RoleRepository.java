@@ -11,4 +11,7 @@ public interface RoleRepository {
 
     @Select("select * from roles")
     List<Role> roles();
+
+    @Select("select * from roles where id = #{id}")
+    Role role(int id);
 }

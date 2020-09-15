@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/admin.layout}">
 <head>
@@ -95,10 +96,10 @@
                                 th:data-description="*{description}"
                                 th:data-thumbnail="*{thumbnail}"
                                 th:data-category-id="*{category.getId()}"
-                                type="submit" class="btn btn-warning w-25 btnEdit">
+                                type="submit" class="btn btn-warning w-25 btnEdit" sec:authorize="hasAuthority('WRITE')">
                             <i class="far fa-edit"></i>
                         </button>
-                        <button th:data-id="*{articleID}" type="submit" class="btn btn-danger w-25 btn-delete">
+                        <button th:data-id="*{articleID}" type="submit" class="btn btn-danger w-25 btn-delete" sec:authorize="hasAuthority('ADMIN')">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </td>

@@ -28,7 +28,7 @@ public class ArticleController {
     @Value("${file.server-path}")
     private String serverPath;
 
-    private ArticleServiceImp articleServiceImp;
+    private  ArticleServiceImp articleServiceImp;
     private CategoryServiceImp categoryServiceImp;
 
     @Autowired
@@ -41,6 +41,7 @@ public class ArticleController {
         this.categoryServiceImp = categoryServiceImp;
     }
 
+    
     @GetMapping
     public String articleView(ModelMap map, @ModelAttribute Article article){
         map.addAttribute("categories",categoryServiceImp.select());
@@ -53,7 +54,7 @@ public class ArticleController {
     @PostMapping
     public String saveArticleAction(@ModelAttribute Article article, @RequestParam("tn") MultipartFile tn){
         String fileName= tn.getOriginalFilename();
-        String uri = UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
+        String uri = UUID.randomUUID() + fileName.substring(fileName.indexOf("."));
 
         try {
             Files.copy(tn.getInputStream(), Paths.get(serverPath+uri));
@@ -64,7 +65,6 @@ public class ArticleController {
         article.setAuthor("Admin");
         article.setDate(new Date(System.currentTimeMillis()));
         article.setThumbnail(uri);
-
         articleServiceImp.save(article);
         return "redirect:"+URL;
     }
@@ -77,15 +77,12 @@ public class ArticleController {
 
             try {
                 Files.copy(tn.getInputStream(), Paths.get(serverPath+uri));
-                System.out.println(serverPath+uri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             article.setThumbnail(uri);
         }
-        System.out.println("Articles"+article);
         articleServiceImp.update(article);
-
         return "redirect:"+URL;
     }
 

@@ -46,7 +46,7 @@ class ThymeleafDemoApplicationTests {
 
     @Test
     void test(){
-        //System.out.println(bCryptPasswordEncoder.encode("wath@123"));
+        System.out.println(bCryptPasswordEncoder.encode("wath@123"));
         System.out.println(userRepository.selectRolesById(1));
     }
 

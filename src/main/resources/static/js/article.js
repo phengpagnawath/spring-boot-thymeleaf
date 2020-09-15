@@ -16,7 +16,7 @@ $('.btnEdit').on('click', function (e) {
         description : $(this).data('description'),
         category : $(this).data('category-id')
     }
-    $('#quickForm').attr('action', '/admin/articles/' + article.articleID)
+    $('#quickForm').attr('action', '/admin/articles/'+article.articleID)
     $('#categoryId').val(article.category)
     $('#title').val(article.title)
     $('#description').val(article.description)

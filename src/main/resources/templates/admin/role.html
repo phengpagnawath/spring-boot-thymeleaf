@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin.layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Role</title>
+</head>
+<body>
+<div layout:fragment="contain">
+
+    <!-- Start Article -->
+    <div class="content-wrapper">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <button id="btn-add" type="button" class="btn btn-block bg-gradient-info" data-toggle="modal" data-target="#role-modal">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="role,state : ${roles}" >
+                        <td th:text="${state.count}"></td>
+                        <td th:text="${role.name}">Title</td>
+                        <td th:object="${role}">
+                            <button th:data-id="*{name}"
+                                    type="submit" class="btn btn-warning w-25 btnEdit" sec:authorize="hasAuthority('ADMIN')">
+                                <i class="far fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+
+        </div>
+    </div>
+
+    <!--  End Article  -->
+    <div th:replace="fragments/modal :: modal-add-role"> </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+
+        });
+    </script>
+    <script src="/js/role.js"> </script>
+</th:block>
+</body>
+</html>

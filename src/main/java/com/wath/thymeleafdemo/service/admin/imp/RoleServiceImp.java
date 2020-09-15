@@ -22,4 +22,14 @@ public class RoleServiceImp implements RoleService {
     public List<Role> listRole() {
         return roleRepository.roles();
     }
+
+    @Override
+    public Role addRole(Role role) {
+        return null;
+    }
+
+    @Override
+    public Role findRole(int id) {
+        return roleRepository.role(id);
+    }
 }
