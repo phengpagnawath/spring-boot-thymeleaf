@@ -56,8 +56,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.formLogin().loginPage("/login").successHandler(successHandler).permitAll();
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
         http.authorizeRequests()
-                .antMatchers("/admin/categories/**").hasAnyAuthority("ADMIN","EDITOR")
-                .antMatchers("/admin/articles/**").hasAnyAuthority("WRITE","READ")
+                .antMatchers("/admin/categories/**").hasAnyAuthority("CATEGORY_")
+                .antMatchers("/admin/articles/**").hasAnyAuthority("ARTICLE_")
+                .antMatchers("/admin/role/**").hasAnyAuthority("ROLE_")
+                .antMatchers("/admin/user/**").hasAnyAuthority("USER_")
                 .anyRequest().authenticated();
     }
 
