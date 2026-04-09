@@ -7,12 +7,228 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>dashboard</title>
+    <title>Dashboard</title>
+    <style>
+        .news-desk {
+            background: linear-gradient(180deg, #f7f1e3 0%, #efe5cf 100%);
+            color: #1f1a14;
+            font-family: Georgia, "Times New Roman", serif;
+            padding: 24px 0 40px;
+        }
+
+        .news-shell {
+            background: rgba(255, 251, 242, 0.92);
+            border: 1px solid #d6c7a6;
+            box-shadow: 0 18px 50px rgba(74, 57, 24, 0.08);
+            padding: 28px;
+        }
+
+        .news-banner {
+            border-bottom: 3px double #2f2417;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            text-align: center;
+        }
+
+        .news-banner h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 0.18rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .news-banner p {
+            font-family: "Poppins", sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.08rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .lead-story {
+            border-bottom: 1px solid #d6c7a6;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+        }
+
+        .lead-kicker,
+        .article-kicker {
+            color: #8c3b21;
+            font-family: "Poppins", sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.14rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .lead-headline {
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 14px;
+        }
+
+        .lead-summary {
+            font-size: 1.08rem;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .lead-thumb,
+        .story-thumb {
+            background: #e6dac1;
+            border: 1px solid #cbb88f;
+            display: block;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .lead-thumb {
+            height: 100%;
+            max-height: 420px;
+        }
+
+        .lead-meta,
+        .story-meta {
+            color: #5c4d39;
+            font-family: "Poppins", sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.04rem;
+            text-transform: uppercase;
+        }
+
+        .news-column {
+            border-right: 1px solid #d6c7a6;
+            padding: 0 18px;
+        }
+
+        .news-column:last-child {
+            border-right: 0;
+        }
+
+        .story-card {
+            border-bottom: 1px solid #d6c7a6;
+            height: 100%;
+            margin-bottom: 22px;
+            padding-bottom: 22px;
+        }
+
+        .story-card:last-child {
+            border-bottom: 0;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .story-thumb {
+            height: 180px;
+            margin-bottom: 14px;
+        }
+
+        .story-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+        .story-summary {
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin-bottom: 12px;
+        }
+
+        .empty-paper {
+            border: 1px dashed #bca57b;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .empty-paper h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .empty-paper p {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+        }
+
+        @media (max-width: 991.98px) {
+            .news-column {
+                border-right: 0;
+                border-bottom: 1px solid #d6c7a6;
+                margin-bottom: 20px;
+                padding: 0 0 20px;
+            }
+
+            .news-column:last-child {
+                border-bottom: 0;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            .lead-headline {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div layout:fragment="contain">
-    <h1>Hello page, welcome to my guy !</h1>
+    <section class="news-desk">
+        <div class="container-fluid">
+            <div class="news-shell">
+                <div class="news-banner">
+                    <h1>Daily Dashboard</h1>
+                    <p th:text="${#lists.isEmpty(articles)} ? 'No stories published yet' : |Edition loaded with ${#lists.size(articles)} stories|">
+                        Edition loaded with stories
+                    </p>
+                </div>
+
+                <div th:if="${#lists.isEmpty(articles)}" class="empty-paper">
+                    <h2>No articles yet</h2>
+                    <p>Publish articles from Article Management and they will appear here automatically.</p>
+                </div>
+
+                <div th:if="${not #lists.isEmpty(articles)}">
+                    <article class="lead-story row">
+                        <div class="col-lg-7">
+                            <div class="lead-kicker">Front Page Story</div>
+                            <h2 class="lead-headline" th:text="${articles[0].title}">Lead headline</h2>
+                            <p class="lead-summary" th:text="${articles[0].description}">Lead summary</p>
+                            <div class="lead-meta">
+                                <span th:text="${articles[0].author}">Admin</span>
+                                <span>&nbsp;|&nbsp;</span>
+                                <span th:text="${articles[0].date}">2026-04-09</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mt-4 mt-lg-0" th:if="${articles[0].thumbnail != null}">
+                            <img class="lead-thumb" th:src="@{|/images/${articles[0].thumbnail}|}" alt="Lead article thumbnail">
+                        </div>
+                    </article>
+
+                    <div class="row">
+                        <div class="col-lg-4 news-column" th:each="article, state : ${articles}" th:if="${state.index > 0}">
+                            <article class="story-card">
+                                <img class="story-thumb" th:if="${article.thumbnail != null}" th:src="@{|/images/${article.thumbnail}|}" alt="Article thumbnail">
+                                <div class="article-kicker" th:text="|Column ${state.index}|">Column 1</div>
+                                <h3 class="story-title" th:text="${article.title}">Story title</h3>
+                                <p class="story-summary" th:text="${article.description}">Story summary</p>
+                                <div class="story-meta">
+                                    <span th:text="${article.author}">Admin</span>
+                                    <span>&nbsp;|&nbsp;</span>
+                                    <span th:text="${article.date}">2026-04-09</span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
 </body>

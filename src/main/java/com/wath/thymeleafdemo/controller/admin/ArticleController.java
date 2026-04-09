@@ -13,9 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -53,18 +55,10 @@ public class ArticleController {
 
     @PostMapping
     public String saveArticleAction(@ModelAttribute Article article, @RequestParam("tn") MultipartFile tn){
-        String fileName= tn.getOriginalFilename();
-        String uri = UUID.randomUUID() + fileName.substring(fileName.indexOf("."));
-
-        try {
-            Files.copy(tn.getInputStream(), Paths.get(serverPath+uri));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         article.setArticleID(UUID.randomUUID().toString());
         article.setAuthor("Admin");
         article.setDate(new Date(System.currentTimeMillis()));
-        article.setThumbnail(uri);
+        article.setThumbnail(storeThumbnail(tn));
         articleServiceImp.save(article);
         return "redirect:"+URL;
     }
@@ -72,15 +66,7 @@ public class ArticleController {
     @PostMapping("/{articleID}")
     public String updateArticleAction(@ModelAttribute Article article, @RequestParam("tn") MultipartFile tn){
         if(!tn.isEmpty()){
-            String fileName= tn.getOriginalFilename();
-            String uri = UUID.randomUUID() + fileName.substring(fileName.indexOf("."));
-
-            try {
-                Files.copy(tn.getInputStream(), Paths.get(serverPath+uri));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            article.setThumbnail(uri);
+            article.setThumbnail(storeThumbnail(tn));
         }
         articleServiceImp.update(article);
         return "redirect:"+URL;
@@ -90,5 +76,26 @@ public class ArticleController {
     public String deleteArticleAction(@PathVariable String id){
         articleServiceImp.delete(id);
         return "redirect:"+URL;
+    }
+
+    private String storeThumbnail(MultipartFile thumbnail) {
+        if (thumbnail == null || thumbnail.isEmpty()) {
+            return null;
+        }
+
+        String fileName = Objects.requireNonNull(thumbnail.getOriginalFilename(), "Thumbnail filename is required");
+        int extensionIndex = fileName.lastIndexOf('.');
+        String extension = extensionIndex >= 0 ? fileName.substring(extensionIndex) : "";
+        String storedFileName = UUID.randomUUID() + extension;
+        Path uploadDirectory = Paths.get(serverPath).toAbsolutePath().normalize();
+        Path destination = uploadDirectory.resolve(storedFileName);
+
+        try {
+            Files.createDirectories(uploadDirectory);
+            Files.copy(thumbnail.getInputStream(), destination);
+            return storedFileName;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to store thumbnail", e);
+        }
     }
 }
